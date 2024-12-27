@@ -12,6 +12,12 @@ function SignUpForm() {
   const [showChecklist, setShowChecklist] = useState(false);
   const navigate = useNavigate();
 
+  // Email validation function
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
   // Add effect to check password match
   useEffect(() => {
     if (confirmPassword) {
@@ -56,6 +62,12 @@ function SignUpForm() {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
+    // Check if email is valid
+    if (!validateEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
+
     // Check if passwords match
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -71,10 +83,6 @@ function SignUpForm() {
     }
 
     try {
-      console.log(
-        'Sending request to:',
-        `${import.meta.env.VITE_API_URL}/api/signup`
-      );
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/signup`,
         {

@@ -89,4 +89,29 @@ describe('SignUpForm', () => {
       ).toBeInTheDocument();
     });
   });
+
+  it('validates email format', async () => {
+    renderSignUpForm();
+
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'invalid-email' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: 'StrongPass123!' },
+    });
+    fireEvent.change(
+      screen.getByPlaceholderText('Confirm Password'),
+      {
+        target: { value: 'StrongPass123!' },
+      }
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Invalid email format/i)
+      ).toBeInTheDocument();
+    });
+  });
 });
