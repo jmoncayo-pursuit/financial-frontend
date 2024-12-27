@@ -71,10 +71,17 @@ function SignUpForm() {
     }
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/signup`, {
-        email,
-        password,
-      });
+      console.log(
+        'Sending request to:',
+        `${import.meta.env.VITE_API_URL}/api/signup`
+      );
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/signup`,
+        {
+          email,
+          password,
+        }
+      );
 
       setEmail('');
       setPassword('');
@@ -85,6 +92,8 @@ function SignUpForm() {
         },
       });
     } catch (err) {
+      console.error('Full error:', err);
+      console.error('Response:', err.response);
       if (err.response && err.response.status === 409) {
         setError(
           'Email already exists. Please use a different email.'
