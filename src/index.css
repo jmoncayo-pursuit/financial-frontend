@@ -1,0 +1,83 @@
+/* Essential resets and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+/* App structure */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Password strength indicators */
+.password-strength {
+  padding: 5px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.strength-0 {
+  background-color: #ff3e36;
+}
+.strength-1 {
+  background-color: #ff691f;
+}
+.strength-2 {
+  background-color: #ffda00;
+}
+.strength-3 {
+  background-color: #0fbd0f;
+}
+.strength-4 {
+  background-color: #00ff6a;
+}
+.strength-5 {
+  background-color: #00ff6a;
+  box-shadow: 0 0 10px rgba(0, 255, 106, 0.5);
+}
+
+/* iOS zoom prevention */
+input.form-control {
+  font-size: 16px;
+}
+
+/* Dark theme overrides for cards */
+.card.bg-dark {
+  background-color: #495057 !important;
+}
+/* Ensure navbar stays on top */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.password-checklist {
+  background-color: #2c3034;
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+.password-checklist li {
+  margin-bottom: 0.25rem;
+}
+
+.password-checklist li:last-child {
+  margin-bottom: 0;
+}
+
+.text-success {
+  color: #198754 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
