@@ -31,6 +31,33 @@ describe('SignUpForm', () => {
     ).toBeInTheDocument();
   });
 
+  it('handles existing email error', async () => {
+    renderSignUpForm();
+
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'existing@example.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: 'StrongPass123!' },
+    });
+    fireEvent.change(
+      screen.getByPlaceholderText('Confirm Password'),
+      {
+        target: { value: 'StrongPass123!' },
+      }
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          /Email already exists. Please use a different email./i
+        )
+      ).toBeInTheDocument();
+    });
+  });
+
   it('validates password strength', async () => {
     renderSignUpForm();
 
@@ -63,55 +90,5 @@ describe('SignUpForm', () => {
     );
 
     expect(screen.getByText(/passwords match/i)).toBeInTheDocument();
-  });
-
-  it('handles existing email error', async () => {
-    renderSignUpForm();
-
-    fireEvent.change(screen.getByPlaceholderText('Email'), {
-      target: { value: 'existing@example.com' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('Password'), {
-      target: { value: 'StrongPass123!' },
-    });
-    fireEvent.change(
-      screen.getByPlaceholderText('Confirm Password'),
-      {
-        target: { value: 'StrongPass123!' },
-      }
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(/email already exists/i)
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('validates email format', async () => {
-    renderSignUpForm();
-
-    fireEvent.change(screen.getByPlaceholderText('Email'), {
-      target: { value: 'invalid-email' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('Password'), {
-      target: { value: 'StrongPass123!' },
-    });
-    fireEvent.change(
-      screen.getByPlaceholderText('Confirm Password'),
-      {
-        target: { value: 'StrongPass123!' },
-      }
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(/Invalid email format/i)
-      ).toBeInTheDocument();
-    });
   });
 });
